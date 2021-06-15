@@ -33,6 +33,8 @@ module Resync
       # @param user_agent [String] the User-Agent string to send when making requests
       # @param redirect_limit [Integer] the number of redirects to follow before erroring out
       #   (defaults to {DEFAULT_MAX_REDIRECTS})
+      # @param additional_headers [Hash] any additional HTTP headers to use when making requests
+      #   (defaults to an empty hash)
       def initialize(user_agent:, redirect_limit: DEFAULT_MAX_REDIRECTS, additional_headers: {})
         @user_agent = user_agent
         @redirect_limit = redirect_limit

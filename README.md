@@ -21,8 +21,8 @@ source_desc = client.get_and_parse(source_desc_uri) # => Resync::SourceDescripti
 Customize the HTTP headers by passing an HTTPHelper object to the client:
 
 ```ruby
-http_helper = HTTPHelper.new(additional_headers: { 'Authorization' => 'Bearer: mytoken' })
-client = Resync::Client.new http_helper
+http_helper = Resync::Client::HTTPHelper.new(user_agent: 'My Aggregator', additional_headers: { 'Authorization' => 'Bearer: mytoken' })
+client = Resync::Client.new helper: http_helper
 ```
 
 Retrieving a [Capability List](http://www.openarchives.org/rs/1.0/resourcesync#CapabilityList) from the source description:
