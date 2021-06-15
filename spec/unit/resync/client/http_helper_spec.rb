@@ -57,6 +57,16 @@ module Resync
           helper.fetch(uri: URI('http://example.org/'))
         end
 
+        it 'sets additional headers if provided' do
+          headers = { 'Authorization' => 'token' }
+          helper = HTTPHelper.new(user_agent: 'Elvis', additional_headers: headers)
+          expect(@http).to receive(:request).with(request_for(
+                                                    headers: { 'Authorization' => 'token',
+                                                               'User-Agent' => 'Elvis' } )
+          ).and_yield(@success)
+          helper.fetch(uri: URI('http://example.org'))
+        end
+
         it 'uses SSL for https requests' do
           uri = URI('https://example.org/')
           expect(Net::HTTP).to receive(:start).with(uri.hostname, uri.port, use_ssl: true).and_call_original

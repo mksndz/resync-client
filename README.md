@@ -18,6 +18,13 @@ source_desc_uri = 'http://example.org/.well-known/resourcesync'
 source_desc = client.get_and_parse(source_desc_uri) # => Resync::SourceDescription
 ```
 
+Customize the HTTP headers by passing an HTTPHelper object to the client:
+
+```ruby
+http_helper = HTTPHelper.new(additional_headers: { 'Authorization' => 'Bearer: mytoken' })
+client = Resync::Client.new http_helper
+```
+
 Retrieving a [Capability List](http://www.openarchives.org/rs/1.0/resourcesync#CapabilityList) from the source description:
 
 ```ruby
@@ -58,4 +65,3 @@ end
 ## Status
 
 This is a work in progress -- bug reports and feature requests are welcome. It's still a prototype, and hasn't really been tested except with [resync-simulator](https://github.com/resync/resync-simulator) -- and that not much beyond what you'll find in [example.rb](example.rb). So expect some trouble. `:)`
-

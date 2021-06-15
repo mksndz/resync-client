@@ -33,9 +33,10 @@ module Resync
       # @param user_agent [String] the User-Agent string to send when making requests
       # @param redirect_limit [Integer] the number of redirects to follow before erroring out
       #   (defaults to {DEFAULT_MAX_REDIRECTS})
-      def initialize(user_agent:, redirect_limit: DEFAULT_MAX_REDIRECTS)
+      def initialize(user_agent:, redirect_limit: DEFAULT_MAX_REDIRECTS, additional_headers: {})
         @user_agent = user_agent
         @redirect_limit = redirect_limit
+        @additional_headers = additional_headers
       end
 
       # ------------------------------------------------------------
@@ -75,7 +76,8 @@ module Resync
 
       def make_request(uri, limit, &block) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
         raise "Redirect limit (#{redirect_limit}) exceeded retrieving URI #{uri}" if limit <= 0
-        req = Net::HTTP::Get.new(uri, 'User-Agent' => user_agent)
+        headers = @additional_headers.merge({ 'User-Agent' => user_agent })
+        req = Net::HTTP::Get.new(uri, headers)
         Net::HTTP.start(uri.hostname, uri.port, use_ssl: (uri.scheme == 'https')) do |http|
           http.request(req) do |response|
             case response
